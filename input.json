@@ -1,0 +1,19 @@
+{
+    "system_name": "Gallium_Oxide",
+    "structure":{
+        "path": "init_structure",
+        "file": "POSCAR"
+    },
+    "submit_queue": "std40",
+    "defects":[
+        {
+            "type": "remove",
+            "init_atom": "Ga",
+            "charge": [-1, 0]
+        }
+    ],
+    "post_process": {
+        "correction": true,
+        "gap_range": [0, 3]
+    } 
+}

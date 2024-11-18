@@ -1,0 +1,22 @@
+Global Parameters
+ISTART =  1            (Read existing wavefunction, if there)
+ISPIN  =  2            (Non-Spin polarised DFT)
+LREAL  = .FALSE.       (Projection operators: automatic)
+ENCUT  =  520        (Cut-off energy for plane wave basis set, in eV)
+PREC   =  Accurate   (Precision level: Normal or Accurate, set Accurate when perform structure lattice relaxation calculation)
+LWAVE  = .FALSE.        (Write WAVECAR or not)
+LCHARG = .FALSE.        (Write CHGCAR or not)
+
+NPAR = 10
+
+ 
+Lattice Relaxation
+NSW    =  1000          (number of ionic steps)
+ISMEAR =  0            (gaussian smearing method )
+SIGMA  =  0.05         (please check the width of the smearing)
+IBRION =  2            (Algorithm: 0-MD, 1-Quasi-New, 2-CG)
+ISIF   =  3            (optimize atomic coordinates and lattice parameters)
+EDIFF  =  1E-6
+EDIFFG = -0.01      (Ionic convergence, eV/A)
+NELM = 1000
+NELMIN = 5
