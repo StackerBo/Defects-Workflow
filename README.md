@@ -1,6 +1,7 @@
 ### Installation
-pymatgen, spinney package is needed
-POTCAR should be correctly configured for pymatgen
+- ```pymatgen```, ```spinney``` package is needed
+
+- POTCAR directory should be correctly configured for ```pymatgen```
 
 ### Sample input file
 ```json
@@ -30,6 +31,7 @@ Please save it in json file format
 - submit_queue: ["std40","std2","f96"]
 - defects type: ["remove", "replace"]
 - gap_range starts from 0, but can be a little bigger to ensure the results
+- correction keyword should be true
 
 ### Submission
 Submit the job by this command
