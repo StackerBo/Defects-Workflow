@@ -96,20 +96,20 @@ def main(input_param):
             new_atom = defects_conf['new_atom']
 
             new_stru = stru.replace_atom(init_atom, new_atom)
-            defect_name = f"{new_atom}_{init_atom}"
         elif defects_conf['type'] == 'remove':
             init_atom = defects_conf['init_atom']
 
             new_stru = stru.remove_atom(defects_conf['init_atom'])
-            defect_name = f"V_{init_atom}"
+        elif defects_conf['type'] == 'multi':
+            new_stru = stru.multi_defects(defects_conf['conf'])
 
         num_stru = len(new_stru)
         print(f"Created {num_stru} new defects structures!")
 
         # Structure optimization
-        for id, (stru, atom_id) in enumerate(new_stru):
+        for id, (stru, atom_id, defect_name) in enumerate(new_stru):
             # Structure opt (PBE) -> SCF (PBE) -> Formation energy and transition levels -> SCF (HSE06)
-            opt_dir = os.path.join(f'{input_param['system_name']}', 'opt_defects', defect_name + str(id))
+            opt_dir = os.path.join(f'{input_param['system_name']}', 'opt_defects', defect_name)
             # Structure optimization
             opt_calculator = Calculation_process(stru, opt_dir, atom_id)
             opt_calculator.opt_pbe(input_param['submit_queue'])
@@ -121,14 +121,14 @@ def main(input_param):
 
         # SCF (PBE)
         if input_param['calculation']['scf'] == 'PBE':
-            for id, (stru, atom_id) in enumerate(new_stru):
-                opt_dir = os.path.join(f'{input_param['system_name']}', 'opt_defects', defect_name + str(id))
+            for id, (stru, atom_id, defect_name) in enumerate(new_stru):
+                opt_dir = os.path.join(f'{input_param['system_name']}', 'opt_defects', defect_name)
                 # Extract the charge
                 opt_outcar = Outcar(os.path.join("calc", opt_dir, "OUTCAR"))
                 total_electrons = int(opt_outcar.nelect)        
 
                 # SCF (PBE)
-                scf_dir = os.path.join(f'{input_param['system_name']}', 'data_defects', defect_name + str(id))
+                scf_dir = os.path.join(f'{input_param['system_name']}', 'data_defects', defect_name)
                 scf_stru = Structure.from_file(os.path.join("calc", opt_dir,'CONTCAR'))
 
                 for charge in defects_conf['charge']:
@@ -138,15 +138,15 @@ def main(input_param):
                 print(f"No. {id} SCF files created!")
                 submit_jobs(os.path.join("calc", input_param['system_name'], 'data_defects'), False)
         elif input_param['calculation']['scf'] == 'HSE06':
-            for id, (stru, atom_id) in enumerate(new_stru):
-                opt_dir = os.path.join(f'{input_param['system_name']}', 'opt_defects', defect_name + str(id))
+            for id, (stru, atom_id, defect_name) in enumerate(new_stru):
+                opt_dir = os.path.join(f'{input_param['system_name']}', 'opt_defects', defect_name)
                 # Extract the charge
-                opt_outcar = Outcar(os.path.join("calc", opt_dir, "OUTCAR"))
+                opt_outcar = Outcar(os.path.join("calc",opt_dir, "OUTCAR"))
                 total_electrons = int(opt_outcar.nelect)        
 
                 # SCF (PBE)
-                pbe_dir = os.path.join(f'{input_param['system_name']}', 'data_defects', defect_name + str(id))
-                scf_dir = os.path.join(f'{input_param['system_name']}', 'data_defects', defect_name + str(id) + "_HSE06")
+                pbe_dir = os.path.join(f'{input_param['system_name']}', 'data_defects', defect_name)
+                scf_dir = os.path.join(f'{input_param['system_name']}', 'data_defects', defect_name + "_HSE06")
                 scf_stru = Structure.from_file(os.path.join("calc", opt_dir,'CONTCAR'))
 
                 for charge in defects_conf['charge']:
