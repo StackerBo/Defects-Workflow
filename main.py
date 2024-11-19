@@ -3,6 +3,7 @@ from calculation_process import Calculation_process
 from post_process import Post_process
 from pymatgen.core import Structure
 from pymatgen.io.vasp.outputs import Outcar
+import shutil
 import json
 import argparse
 import os
@@ -74,7 +75,7 @@ def read_input(input_file):
 
 def main(input_param):
     # Define data
-    vbm = 3.404998
+    vbm = 1.5457
     e_r = [[10.2, 0, -0.1399],[0, 10.21, 0],[-0.1399, 0, 13.12]]
     chem_pot_O = -4.92997145
     chem_pot_N = -8.4823571
@@ -144,13 +145,19 @@ def main(input_param):
                 total_electrons = int(opt_outcar.nelect)        
 
                 # SCF (PBE)
+                pbe_dir = os.path.join(f'{input_param['system_name']}', 'data_defects', defect_name + str(id))
                 scf_dir = os.path.join(f'{input_param['system_name']}', 'data_defects', defect_name + str(id) + "_HSE06")
                 scf_stru = Structure.from_file(os.path.join("calc", opt_dir,'CONTCAR'))
 
                 for charge in defects_conf['charge']:
                     charge_dir = os.path.join(scf_dir, str(charge))
+                    pbe_charge_dir = os.path.join(pbe_dir, str(charge))
                     scf_calculator = Calculation_process(scf_stru, charge_dir, atom_id)
-                    scf_calculator.scf_hse06(input_param['submit_queue'], total_electrons - charge) 
+                    scf_calculator.scf_hse06(input_param['submit_queue'], total_electrons - charge)
+                    # Copy WAVECAR and CHGCAR
+                    shutil.copy(os.path.join("calc", pbe_charge_dir, "WAVECAR"), os.path.join("calc", charge_dir, "WAVECAR"))
+                    shutil.copy(os.path.join("calc", pbe_charge_dir, "CHGCAR"), os.path.join("calc", charge_dir, "CHGCAR"))
+
                 print(f"No. {id} SCF files created!")
                 submit_jobs(os.path.join("calc", input_param['system_name'], 'data_defects'), False)
 
