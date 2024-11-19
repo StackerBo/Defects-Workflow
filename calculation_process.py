@@ -49,7 +49,7 @@ class Calculation_process:
         original_cwd = os.getcwd()
 
         os.chdir(cal_dir)
-        with open('positions.txt', 'w') as f:
+        with open('position.txt', 'w') as f:
             f.write(' '.join(map(str, self.atom_info)))
         # os.system("qsub submit.sh")
         # print("Successfully submit to the queue!")
@@ -94,7 +94,7 @@ class Calculation_process:
         original_cwd = os.getcwd()
 
         os.chdir(cal_dir)
-        with open('positions.txt', 'w') as f:
+        with open('position.txt', 'w') as f:
             f.write(' '.join(map(str, self.atom_info)))
         # os.system("qsub submit.sh")
         # print("Successfully submit to the queue!")
@@ -128,7 +128,7 @@ class Calculation_process:
         original_cwd = os.getcwd()
 
         os.chdir(cal_dir)
-        with open('positions.txt', 'w') as f:
+        with open('position.txt', 'w') as f:
             f.write(' '.join(map(str, self.atom_info)))
         # os.system("qsub submit.sh")
         # print("Successfully submit to the queue!")
