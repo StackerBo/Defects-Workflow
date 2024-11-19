@@ -12,8 +12,11 @@
             "charge": [-1, 0]
         }
     ],
+    "calculation":{
+        "scf": "HSE06"
+    },
     "post_process": {
         "correction": true,
-        "gap_range": [0, 3]
+        "gap_range": [0, 5]
     } 
 }

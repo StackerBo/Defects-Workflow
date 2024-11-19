@@ -15,7 +15,11 @@ class Calculation_process:
     def scf_pbe(self, queue, charge):
         # create the dir
         cal_dir = os.path.join("calc",self.dir)
-        if not os.path.exists(cal_dir):
+        if os.path.exists(cal_dir):
+            if os.path.exists(os.path.join(cal_dir, 'submitted')):
+                print(f"{cal_dir} exists, skip this step!")
+                return
+        else:
             os.makedirs(cal_dir)
         vasp_input_set = MPStaticSet(self.stru)
         vasp_input_set.write_input(cal_dir)
@@ -60,7 +64,11 @@ class Calculation_process:
     def scf_hse06(self, queue, charge):
         # create the dir
         cal_dir = os.path.join("calc",self.dir)
-        if not os.path.exists(cal_dir):
+        if os.path.exists(cal_dir):
+            if os.path.exists(os.path.join(cal_dir, 'submitted')):
+                print(f"{cal_dir} exists, skip this step!")
+                return
+        else:
             os.makedirs(cal_dir)
         vasp_input_set = MPStaticSet(self.stru)
         vasp_input_set.write_input(cal_dir)
@@ -104,7 +112,11 @@ class Calculation_process:
     def opt_pbe(self, queue):
         # create the dir
         cal_dir = os.path.join("calc",self.dir)
-        if not os.path.exists(cal_dir):
+        if os.path.exists(cal_dir):
+            if os.path.exists(os.path.join(cal_dir, 'submitted')):
+                print(f"{cal_dir} exists, skip this step!")
+                return
+        else:
             os.makedirs(cal_dir)
         vasp_input_set = MPStaticSet(self.stru)
         vasp_input_set.write_input(cal_dir)

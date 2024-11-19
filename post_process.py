@@ -56,7 +56,7 @@ class Post_process:
 
         # Write the file
         if write_file == True:
-            defective_system.write_formation_energies(f'{system_dir}/transition_levels.txt.txt')
+            defective_system.write_formation_energies(f'{system_dir}/formation_energy.txt')
 
         return defective_system.data
     
