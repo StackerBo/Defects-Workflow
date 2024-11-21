@@ -23,14 +23,14 @@ class Structure_process:
         eq_ids_atom = [[i for i in A if i in ids_atom] for A in self.eq_ids]
         eq_ids_atom = [sublist for sublist in eq_ids_atom if sublist]
         replaced_structure = []
-        for atom_list in eq_ids_atom:
+        for id, atom_list in enumerate(eq_ids_atom):
             atom_id = atom_list[0]
             atom_site = self.stru[atom_id]
             atom_coords = atom_site.frac_coords
 
             stru_copy = self.stru.copy()
             stru_copy.replace(atom_id, species = new_atom)
-            defect_name = f'{new_atom}_{init_atom}'
+            defect_name = f'{new_atom}_{init_atom}{id}'
             replaced_structure.append((stru_copy, atom_id, defect_name))
 
         # with open('defect_info.txt', 'w') as f:
@@ -42,7 +42,7 @@ class Structure_process:
         eq_ids_atom = [[i for i in A if i in ids_atom] for A in self.eq_ids]
         eq_ids_atom = [sublist for sublist in eq_ids_atom if sublist]
         removed_structure = []
-        for atom_list in eq_ids_atom:
+        for id, atom_list in enumerate(eq_ids_atom):
             atom_id = atom_list[0]
             atom_site = self.stru[atom_id]
             atom_coords = atom_site.frac_coords
@@ -50,7 +50,7 @@ class Structure_process:
 
             stru_copy = self.stru.copy()
             stru_copy.remove_sites([atom_id])
-            defect_name = f'V_{init_atom}'
+            defect_name = f'V_{init_atom}{id}'
             removed_structure.append((stru_copy, atom_id, defect_name))
 
         # with open('defect_info.txt', 'w') as f:
